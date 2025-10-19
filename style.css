@@ -1,187 +1,116 @@
-/* === STYLE UNTUK UNDANGAN WISUDA === */
-
-/* --- CSS Variables --- */
-:root {
-    --color-blue: #004a99; /* Biru institusional */
-    --color-blue-darker: #003366;
-    --color-gold: #b59a58; /* Emas tetap dipertahankan untuk aksen */
-    --color-dark: #2c2c2c;
-    --color-light: #fdfdfd;
-    --background-main: #e9eff4; /* Latar belakang abu-abu kebiruan */
-    --background-card: #ffffff;
-    --color-text-muted: #7d7d7d;
-    --color-border: #dcdcdc;
-    --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.06);
-    --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --font-heading: 'Great Vibes', cursive;
-    --font-body: 'Montserrat', sans-serif;
-    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* --- Global Reset & Fondasi (Sama dengan aslinya, hanya mengganti variabel) --- */
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
-    font-family: var(--font-body); background-color: var(--background-main);
-    margin: 0; padding: 0; color: var(--color-dark); overflow-x: hidden;
-    transition: background-color 0.5s, color 0.5s;
+    font-family: 'Georgia', serif;
+    background-color: #f4f7f6; /* Warna latar belakang lembut */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-/* --- Animasi Konfeti (Pengganti Leaf Animation) --- */
-@keyframes confetti-fall {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-#confetti-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; overflow: hidden; z-index: 99;
-}
-.confetti {
-    position: absolute; width: 10px; height: 15px;
-    background-color: var(--color-gold); 
-    animation: confetti-fall 10s linear infinite;
-    border-radius: 2px;
-}
-/* Tambahkan warna lain untuk konfeti */
-.confetti:nth-child(3n+0) { background-color: var(--color-blue); }
-.confetti:nth-child(3n+1) { background-color: var(--color-gold); }
-.confetti:nth-child(3n+2) { background-color: #f7e099; } /* Light Gold */
-
-
-/* --- Cover Page --- */
-#cover-page {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    /* Ganti gambar latar belakang dengan tema kampus/akademik */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1579854345037-1834e007823e?q=80&w=1887&auto=format&fit=crop');
-    background-size: cover; background-position: center;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; color: white; z-index: 100;
-    transition: opacity 1.5s ease-out, visibility 1.5s; padding: 20px;
-}
-#cover-page.hidden { opacity: 0; visibility: hidden; }
-#cover-page h1 {
-    font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 12vw, 5rem);
-    margin: 10px 0;
-    color: var(--color-gold); font-weight: normal;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-}
-#open-invitation-btn {
-    /* Ganti warna tombol */
-    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
-    color: white; border: none; padding: 14px 35px;
-    border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem;
-    transition: var(--transition-smooth);
-    /* Ganti animasi pulse ke warna biru */
-    animation: pulse 2s infinite;
-    box-shadow: var(--shadow-medium);
-}
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 74, 153, 0.7); } /* Biru */
-    70% { box-shadow: 0 0 0 15px rgba(0, 74, 153, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 74, 153, 0); }
+.undangan-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff; /* Latar belakang undangan putih */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #0056b3; /* Garis biru sebagai aksen */
 }
 
-/* --- Main Content & Card (Sama) --- */
-.card-header { border-bottom: none; }
-.couple-photo {
-    /* Ganti border warna foto */
-    border: 6px solid var(--color-blue);
-    margin-top: 25px;
-}
-.couple-names {
-    color: var(--color-blue); margin: 25px 0 15px 0;
-}
-.wisuda-detail {
-    font-size: 0.9rem;
-    color: var(--color-blue-darker);
-    margin-top: 15px;
-    line-height: 1.8;
+header h1 {
+    color: #0056b3;
+    font-size: 2.5em;
+    margin-bottom: 5px;
 }
 
-/* --- Countdown Timer --- */
-#countdown {
-    padding: 30px 15px;
-    /* Ganti warna latar belakang countdown */
-    background-color: var(--color-blue); color: white;
+section {
+    margin: 25px 0;
+    padding: 15px;
+    border-bottom: 1px dashed #ccc;
 }
 
-/* --- Event Details --- */
-.event-section h3 {
-    /* Ganti warna heading */
-    font-size: 2.8rem; color: var(--color-blue);
-}
-.event-section p i {
-    /* Ganti warna ikon */
-    color: var(--color-blue);
-}
-.action-button {
-    /* Ganti warna tombol aksi */
-    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
+.info-wisudawan h2 {
+    color: #0056b3;
+    font-size: 1.8em;
+    margin-bottom: 5px;
 }
 
-/* --- Love Story Section (Perjalanan Akademik) --- */
-.timeline::after {
-    /* Ganti warna garis timeline */
-    background-color: var(--color-blue); opacity: 0.2;
+.jurusan {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
 }
-.timeline-item::after {
-    /* Ganti warna border lingkaran timeline */
-    color: var(--color-blue);
-    border: 3px solid var(--color-blue);
-}
-/* Ganti ikon: \f19d (university), \f5da (scroll), \f091 (trophy) */
-.timeline-item:nth-child(1)::after { content: '\f19d'; } /* university */
-.timeline-item:nth-child(2)::after { content: '\f5da'; } /* scroll (ijazah) */
-.timeline-item:nth-child(3)::after { content: '\f091'; } /* trophy (penghargaan) */
 
-.timeline-content {
-    /* Ganti warna border konten */
-    border-left: 5px solid var(--color-blue);
+.detail-item {
+    margin-bottom: 10px;
 }
-.timeline-item.right .timeline-content { border-left: none; border-right: 5px solid var(--color-blue); }
 
+.detail-item strong {
+    color: #0056b3;
+}
 
-/* --- Guestbook Section (Kesan & Pesan) --- */
-#guestbook-form input:focus, #guestbook-form textarea:focus {
-    /* Ganti warna fokus */
-    border-color: var(--color-blue);
-    box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.2);
+.btn-map {
+    display: inline-block;
+    background-color: #28a745; /* Hijau */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
-.wish-card {
-    /* Ganti warna border kartu ucapan */
-    border-left: 5px solid var(--color-blue);
+
+.btn-map:hover {
+    background-color: #218838;
 }
-#submit-wish-btn {
-    /* Ganti warna tombol submit */
-    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
-    color: white; border: none; padding: 14px 25px;
-    border-radius: 8px; cursor: pointer; font-weight: bold;
-    transition: var(--transition-smooth);
+
+.countdown h2 {
+    color: #cc0000;
+}
+
+#timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #cc0000;
+}
+
+.timer-box > div {
+    background-color: #ffe0e0;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.timer-box span {
+    display: block;
+    font-size: 0.5em;
+    font-weight: normal;
+    color: #555;
+    margin-top: 5px;
+}
+
+.penutup p {
+    font-style: italic;
+}
+
+/* Tombol untuk membuka undangan (opsional: sebagai cover) */
+#bukaUndangan {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-}
-#submit-wish-btn:hover { transform: translateY(-2px); }
-
-/* --- Protokol/Informasi Tambahan --- */
-.protocol-item i {
-    /* Ganti warna ikon */
-    color: var(--color-blue);
-}
-
-.card-footer {
-    /* Ganti warna footer */
-    font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-blue);
-}
-
-/* --- Floating Controls (Sama) --- */
-.modal-content { border-radius: 15px; }
-
-/* --- Media Queries (Sama) --- */
-@media (max-width: 768px) {
-    .event-section p { justify-content: flex-start; margin: 15px 0; }
-    .timeline::after { left: 15px; }
-    .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; }
-    .timeline-item.left, .timeline-item.right { left: 0; text-align: left; }
-    .timeline-item.left::after, .timeline-item.right::after { left: 15px; }
-    .timeline-item.right .timeline-content { border-right: none; border-left: 5px solid var(--color-blue); }
+    height: 100%;
+    background-color: #0056b3;
+    color: white;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s, visibility 0.5s;
 }
