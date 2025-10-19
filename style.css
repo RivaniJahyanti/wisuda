@@ -1,16 +1,16 @@
-/* === [KODE BARU] STYLE YANG DISEMPURNAKAN === */
+/* === STYLE UNTUK UNDANGAN WISUDA === */
 
 /* --- CSS Variables --- */
 :root {
-    --color-gold: #b59a58; /* Gold sedikit lebih lembut */
-    --color-gold-darker: #a38647;
-    --color-dark: #2c2c2c; /* Hitam tidak terlalu pekat */
+    --color-blue: #004a99; /* Biru institusional */
+    --color-blue-darker: #003366;
+    --color-gold: #b59a58; /* Emas tetap dipertahankan untuk aksen */
+    --color-dark: #2c2c2c;
     --color-light: #fdfdfd;
-    --color-green: #6d5d4b; /* coklat sedikit lebih kalem */
-    --background-main: #f4efe9;
+    --background-main: #e9eff4; /* Latar belakang abu-abu kebiruan */
     --background-card: #ffffff;
     --color-text-muted: #7d7d7d;
-    --color-border: #eaeaea;
+    --color-border: #dcdcdc;
     --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.06);
     --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
     --font-heading: 'Great Vibes', cursive;
@@ -18,402 +18,170 @@
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* --- Dark Mode Variables --- */
-body.dark-mode {
-    --color-dark: #e9e9e9;
-    --color-light: #2a2a2a;
-    --background-main: #1c1c1c;
-    --background-card: #222222;
-    --color-text-muted: #999;
-    --color-border: #3d3d3d;
-    --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* --- Global Reset & Fondasi --- */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-}
-
+/* --- Global Reset & Fondasi (Sama dengan aslinya, hanya mengganti variabel) --- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
-    font-family: var(--font-body);
-    background-color: var(--background-main);
-    margin: 0;
-    padding: 0;
-    color: var(--color-dark);
-    overflow-x: hidden;
+    font-family: var(--font-body); background-color: var(--background-main);
+    margin: 0; padding: 0; color: var(--color-dark); overflow-x: hidden;
     transition: background-color 0.5s, color 0.5s;
 }
 
-/* --- Animasi --- */
-@keyframes fall {
-    0% { top: -20px; transform: translateX(0) rotate(-20deg); }
-    100% { top: 100vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
+/* --- Animasi Konfeti (Pengganti Leaf Animation) --- */
+@keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(181, 154, 88, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(181, 154, 88, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(181, 154, 88, 0); }
-}
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Leaf Animation --- */
-#leaf-container {
+#confetti-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; overflow: hidden; z-index: 99;
 }
-.leaf {
-    position: absolute; width: 15px; height: 15px;
-    background-color: rgba(181, 154, 88, 0.5); border-radius: 50% 0;
-    animation: fall 15s linear infinite;
+.confetti {
+    position: absolute; width: 10px; height: 15px;
+    background-color: var(--color-gold); 
+    animation: confetti-fall 10s linear infinite;
+    border-radius: 2px;
 }
+/* Tambahkan warna lain untuk konfeti */
+.confetti:nth-child(3n+0) { background-color: var(--color-blue); }
+.confetti:nth-child(3n+1) { background-color: var(--color-gold); }
+.confetti:nth-child(3n+2) { background-color: #f7e099; } /* Light Gold */
+
 
 /* --- Cover Page --- */
 #cover-page {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1523438885207-e6b412b1e8e8?q=80&w=1887&auto=format&fit=crop');
+    /* Ganti gambar latar belakang dengan tema kampus/akademik */
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1579854345037-1834e007823e?q=80&w=1887&auto=format&fit=crop');
     background-size: cover; background-position: center;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; color: white; z-index: 100;
     transition: opacity 1.5s ease-out, visibility 1.5s; padding: 20px;
 }
 #cover-page.hidden { opacity: 0; visibility: hidden; }
-#cover-page p { 
-    font-size: 1rem; 
-    margin-bottom: 5px; 
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
 #cover-page h1 {
     font-family: var(--font-heading);
     font-size: clamp(3.5rem, 12vw, 5rem);
     margin: 10px 0;
-    color: var(--color-gold); font-weight: normal; 
+    color: var(--color-gold); font-weight: normal;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
 }
-#guest-name-display { font-weight: bold; font-size: 1.2rem; margin: 20px 0; }
 #open-invitation-btn {
-    background-image: linear-gradient(to right, var(--color-gold), var(--color-gold-darker));
+    /* Ganti warna tombol */
+    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
     color: white; border: none; padding: 14px 35px;
     border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem;
     transition: var(--transition-smooth);
+    /* Ganti animasi pulse ke warna biru */
     animation: pulse 2s infinite;
     box-shadow: var(--shadow-medium);
 }
-#open-invitation-btn:hover { 
-    transform: scale(1.05) translateY(-2px); 
-    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
-    animation-play-state: paused; 
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 74, 153, 0.7); } /* Biru */
+    70% { box-shadow: 0 0 0 15px rgba(0, 74, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 74, 153, 0); }
 }
 
-/* --- Main Content & Card --- */
-#main-content {
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh;
-    padding: 50px 15px;
-}
-.card {
-    background-color: var(--background-card);
-    border-radius: 20px; 
-    box-shadow: var(--shadow-medium);
-    max-width: 700px; width: 100%; text-align: center;
-    overflow: hidden; 
-    border: 1px solid var(--color-border);
-    opacity: 0; transform: scale(0.95);
-    transition: opacity 1s ease, transform 1s ease, background-color 0.5s;
-}
-.card.visible { opacity: 1; transform: scale(1); }
-
-/* --- Sections Styling --- */
-.animated-section {
-    opacity: 0; /* Awalnya transparan, dikontrol oleh JS */
-    animation-fill-mode: forwards;
-}
-.section-title {
-    font-family: var(--font-heading);
-    font-weight: normal;
-    color: var(--color-dark); 
-    margin-bottom: 10px;
-    font-size: clamp(2.5rem, 8vw, 3rem);
-}
-.section-subtitle {
-    font-size: 0.9rem; 
-    color: var(--color-text-muted); 
-    margin-top: 0; 
-    margin-bottom: 30px;
-    padding: 0 20px;
-    line-height: 1.6;
-}
-.card-header { 
-    padding: 50px 20px; 
-    background-color: var(--color-light);
-    border-bottom: 1px solid var(--color-border);
-}
+/* --- Main Content & Card (Sama) --- */
+.card-header { border-bottom: none; }
 .couple-photo {
-    width: 160px; height: 160px; border-radius: 50%;
-    object-fit: cover; 
-    border: 6px solid var(--color-gold);
-    margin-top: 25px; 
-    box-shadow: var(--shadow-medium);
+    /* Ganti border warna foto */
+    border: 6px solid var(--color-blue);
+    margin-top: 25px;
 }
 .couple-names {
-    font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 13vw, 4.5rem);
-    color: var(--color-dark); margin: 25px 0 15px 0;
+    color: var(--color-blue); margin: 25px 0 15px 0;
 }
-.invitation-text { 
-    font-size: 0.95rem; 
-    padding: 0 20px; 
+.wisuda-detail {
+    font-size: 0.9rem;
+    color: var(--color-blue-darker);
+    margin-top: 15px;
     line-height: 1.8;
-    color: var(--color-text-muted);
 }
 
 /* --- Countdown Timer --- */
 #countdown {
-    display: flex; justify-content: center;
-    gap: 15px;
     padding: 30px 15px;
-    background-color: var(--color-green); color: white;
-}
-.countdown-item {
-    display: flex; flex-direction: column; align-items: center;
-    background-color: rgba(255, 255, 255, 0.1); padding: 12px 5px;
-    border-radius: 12px;
-    min-width: 0;
-    flex: 1;
-    max-width: 85px;
-    transition: var(--transition-smooth);
-}
-.countdown-item:hover { transform: translateY(-5px); }
-.countdown-item span {
-    font-size: clamp(1.8rem, 7vw, 2.2rem);
-    font-weight: 500;
-}
-.countdown-item p { 
-    font-size: 0.7rem; 
-    margin-top: 5px; 
-    text-transform: uppercase; 
-    letter-spacing: 1px;
+    /* Ganti warna latar belakang countdown */
+    background-color: var(--color-blue); color: white;
 }
 
 /* --- Event Details --- */
-.event-details {
-    display: flex;
-    padding: 50px 20px;
-    background-color: var(--color-light); 
-    flex-wrap: wrap; 
-    gap: 40px;
-    border-top: 1px solid var(--color-border); 
-}
-.event-section { 
-    flex: 1; 
-    min-width: 250px; 
-}
 .event-section h3 {
-    font-family: var(--font-heading);
-    font-weight: normal;
-    font-size: 2.8rem;
-    color: var(--color-gold); 
-    margin-bottom: 25px;
+    /* Ganti warna heading */
+    font-size: 2.8rem; color: var(--color-blue);
 }
-.event-section p { 
-    margin: 15px auto; 
-    font-size: 0.95rem; 
-    line-height: 1.6; 
-    display: flex; 
-    align-items: flex-start; 
-    text-align: left;
-    max-width: 280px;
-}
-.event-section p i { 
-    color: var(--color-gold); 
-    margin-right: 15px; 
-    width: 20px; 
-    margin-top: 4px; 
-    text-align: center;
-}
-.action-button-group { 
-    display: flex; 
-    gap: 15px; /* <--- INI PERUBAHANNYA */
-    margin-top: 20px; 
-    justify-content: center; 
-    flex-wrap: wrap;
+.event-section p i {
+    /* Ganti warna ikon */
+    color: var(--color-blue);
 }
 .action-button {
-    background-image: linear-gradient(to right, var(--color-gold), var(--color-gold-darker));
-    color: white !important; border: none; padding: 12px 25px;
-    border-radius: 8px; cursor: pointer; font-weight: bold; 
-    transition: var(--transition-smooth);
-    text-decoration: none; display: inline-flex; align-items: center; 
-    justify-content: center; font-size: 0.9rem;
-    box-shadow: var(--shadow-subtle);
-}
-.action-button:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-medium);
+    /* Ganti warna tombol aksi */
+    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
 }
 
-/* --- Love Story Section --- */
-.story-section { 
-    padding: 50px 15px; 
-    background-color: var(--background-main); 
-}
-.timeline {
-    position: relative;
-    max-width: 700px;
-    margin: 0 auto;
-}
+/* --- Love Story Section (Perjalanan Akademik) --- */
 .timeline::after {
-    content: ''; position: absolute; width: 3px;
-    background-color: var(--color-gold); opacity: 0.2;
-    top: 0; bottom: 0; left: 50%; margin-left: -1.5px;
+    /* Ganti warna garis timeline */
+    background-color: var(--color-blue); opacity: 0.2;
 }
-.timeline-item {
-    padding: 10px 40px; position: relative; width: 50%;
-}
-.timeline-item.left { left: 0; padding-right: 35px; text-align: right; }
-.timeline-item.right { left: 50%; padding-left: 35px; text-align: left;}
-
 .timeline-item::after {
-    content: '';
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Font Awesome 6 Free"; font-weight: 900;
-    font-size: 12px; color: var(--color-gold);
-    position: absolute; width: 30px; height: 30px;
-    right: -15px;
-    background-color: var(--background-card);
-    border: 3px solid var(--color-gold);
-    top: 25px;
-    border-radius: 50%;
-    z-index: 1;
-    transition: var(--transition-smooth);
+    /* Ganti warna border lingkaran timeline */
+    color: var(--color-blue);
+    border: 3px solid var(--color-blue);
 }
-.timeline-item:hover::after { transform: scale(1.1); }
-.timeline-item.right::after { left: -15px; }
-/* Ikon untuk setiap item */
-.timeline-item:nth-child(1)::after { content: '\f004'; /* heart */ }
-.timeline-item:nth-child(2)::after { content: '\f4d7'; /* ring */ }
-.timeline-item:nth-child(3)::after { content: '\f5c2'; /* calendar-check */ }
+/* Ganti ikon: \f19d (university), \f5da (scroll), \f091 (trophy) */
+.timeline-item:nth-child(1)::after { content: '\f19d'; } /* university */
+.timeline-item:nth-child(2)::after { content: '\f5da'; } /* scroll (ijazah) */
+.timeline-item:nth-child(3)::after { content: '\f091'; } /* trophy (penghargaan) */
 
 .timeline-content {
-    padding: 25px; background-color: var(--background-card);
-    position: relative; border-radius: 12px;
-    box-shadow: var(--shadow-subtle);
-    border-left: 5px solid var(--color-gold);
+    /* Ganti warna border konten */
+    border-left: 5px solid var(--color-blue);
+}
+.timeline-item.right .timeline-content { border-left: none; border-right: 5px solid var(--color-blue); }
+
+
+/* --- Guestbook Section (Kesan & Pesan) --- */
+#guestbook-form input:focus, #guestbook-form textarea:focus {
+    /* Ganti warna fokus */
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.2);
+}
+.wish-card {
+    /* Ganti warna border kartu ucapan */
+    border-left: 5px solid var(--color-blue);
+}
+#submit-wish-btn {
+    /* Ganti warna tombol submit */
+    background-image: linear-gradient(to right, var(--color-blue), var(--color-blue-darker));
+    color: white; border: none; padding: 14px 25px;
+    border-radius: 8px; cursor: pointer; font-weight: bold;
     transition: var(--transition-smooth);
     width: 100%;
 }
-.timeline-item.right .timeline-content { border-left: none; border-right: 5px solid var(--color-gold); }
-.timeline-content:hover { 
-    transform: translateY(-5px); 
-    box-shadow: var(--shadow-medium); 
-}
-.timeline-content .date { font-size: 0.8rem; color: var(--color-text-muted); font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-.timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.2rem; }
-.timeline-content p { font-size: 0.9rem; line-height: 1.6; margin: 0; color: var(--color-text-muted); }
+#submit-wish-btn:hover { transform: translateY(-2px); }
 
-/* --- Sections Lainnya --- */
-.quote-section { padding: 50px 20px; text-align: center; }
-.quote-section p { font-style: italic; color: var(--color-text-muted); line-height: 1.8; max-width: 500px; margin: 0 auto; }
-.gallery-section, .guestbook-section, .gift-section, .protocol-section { 
-    padding: 50px 20px;
-    border-top: 1px solid var(--color-border);
+/* --- Protokol/Informasi Tambahan --- */
+.protocol-item i {
+    /* Ganti warna ikon */
+    color: var(--color-blue);
 }
 
-.gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-}
-.gallery-grid img {
-    width: 100%; height: 150px; object-fit: cover; border-radius: 12px; cursor: pointer;
-    transition: var(--transition-smooth);
-    box-shadow: var(--shadow-subtle);
-}
-.gallery-grid img:hover { transform: scale(1.05); box-shadow: var(--shadow-medium); }
-
-#guestbook-form input, #guestbook-form textarea {
-    width: 100%; padding: 14px; margin-bottom: 14px;
-    border-radius: 8px; border: 1px solid var(--color-border); 
-    font-family: var(--font-body);
-    background-color: var(--color-light);
-    color: var(--color-dark);
-    transition: var(--transition-smooth);
-}
-#guestbook-form input:focus, #guestbook-form textarea:focus {
-    outline: none;
-    border-color: var(--color-gold);
-    box-shadow: 0 0 0 3px rgba(181, 154, 88, 0.2);
+.card-footer {
+    /* Ganti warna footer */
+    font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-blue);
 }
 
-.wish-card {
-    background-color: var(--color-light); 
-    border-radius: 8px; padding: 20px; margin-bottom: 15px;
-    border-left: 5px solid var(--color-gold); 
-    box-shadow: var(--shadow-subtle);
-    transition: var(--transition-smooth);
-}
-
-/* --- Gift Section --- */
-.gift-section { padding: 50px 20px; }
-.gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-.gift-box {
-    background: var(--background-card); border: 1px solid var(--color-border); 
-    border-radius: 12px; padding: 30px;
-    flex: 1; min-width: 280px; 
-    transition: var(--transition-smooth); 
-    box-shadow: var(--shadow-subtle);
-    display: flex; /* <-- BARU */
-    flex-direction: column; /* <-- BARU */
-    align-items: center; /* <-- BARU */
-    text-align: center; /* <-- BARU */
-    max-width: 320px; /* Tambahkan max-width agar lebih terkontrol */
-}
-.gift-box:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-medium);
-}
-.gift-box h4 { margin-top: 0; font-weight: 700; color: var(--color-gold); }
-#account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; word-break: break-all; }
-.gift-box .copy-button {
-    background-color: var(--color-dark); color: var(--background-card); border: none; padding: 10px 18px;
-    border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);
-}
-.gift-box .copy-button:hover { background-color: #000; }
-#qris-image { max-width: 150px; margin: 15px auto; display: block; border-radius: 8px; }
-
-/* ... kode CSS lainnya ... */
-.protocol-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
-.protocol-item i { font-size: 2.8rem; color: var(--color-green); margin-bottom: 15px; }
-
-.card-footer { padding: 40px; font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-gold); }
-
-/* --- Floating Controls & Modal --- */
-.floating-controls { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 10px; }
-.control-btn {
-    width: 45px; height: 45px; background-color: rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
-    color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-    cursor: pointer; box-shadow: var(--shadow-subtle); transition: var(--transition-smooth);
-}
-.control-btn:hover { transform: scale(1.1); background-color: rgba(0,0,0,0.7); }
-#music-control.playing i { animation: spin 3s linear infinite; }
+/* --- Floating Controls (Sama) --- */
 .modal-content { border-radius: 15px; }
 
-/* --- [PENTING] Media Queries untuk Responsif --- */
+/* --- Media Queries (Sama) --- */
 @media (max-width: 768px) {
     .event-section p { justify-content: flex-start; margin: 15px 0; }
     .timeline::after { left: 15px; }
     .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; }
     .timeline-item.left, .timeline-item.right { left: 0; text-align: left; }
-    .timeline-item.left::after, .timeline-item.right::after { left: 0; }
-    .timeline-item.right .timeline-content { border-right: none; border-left: 5px solid var(--color-gold); }
+    .timeline-item.left::after, .timeline-item.right::after { left: 15px; }
+    .timeline-item.right .timeline-content { border-right: none; border-left: 5px solid var(--color-blue); }
 }
