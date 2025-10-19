@@ -6,21 +6,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('background-music');
     const musicControl = document.getElementById('music-control');
     
-    // --- 0. Initial Setup ---
-    const leafContainer = document.getElementById('leaf-container');
-    if (leafContainer) {
-        for (let i = 0; i < 15; i++) {
-            const leaf = document.createElement('div');
-            leaf.className = 'leaf';
-            leaf.style.left = `${Math.random() * 100}vw`;
-            leaf.style.animationDelay = `${Math.random() * 10}s`;
-            leaf.style.animationDuration = `${5 + Math.random() * 10}s`;
-            leaf.style.opacity = Math.random();
-            leafContainer.appendChild(leaf);
+    // --- 0. Initial Setup: Confetti Animation (Pengganti Leaf) ---
+    const confettiContainer = document.getElementById('confetti-container');
+    if (confettiContainer) {
+        // Membuat Konfeti
+        for (let i = 0; i < 30; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.animationDelay = `${Math.random() * 8}s`;
+            confetti.style.animationDuration = `${5 + Math.random() * 5}s`;
+            confetti.style.transform = `scale(${0.5 + Math.random()})`;
+            confettiContainer.appendChild(confetti);
         }
     }
 
-    // --- 1. Guest Name Personalization ---
+    // --- 1. Guest Name Personalization (Sama) ---
     const guestNameDisplay = document.getElementById('guest-name-display');
     const urlParams = new URLSearchParams(window.location.search);
     const guestName = urlParams.get('to');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         guestNameDisplay.textContent = guestName.replace(/[+]/g, ' ');
     }
 
-    // --- 2. Cover & Music Logic ---
+    // --- 2. Cover & Music Logic (Sama) ---
     openButton.addEventListener('click', function() {
         coverPage.classList.add('hidden');
         mainContent.classList.add('visible');
@@ -56,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 3. Countdown Timer Logic ---
-    const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime();
+    // --- 3. Countdown Timer Logic (Sama) ---
+    const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime(); // Tanggal Wisuda
     const countdownFunction = setInterval(function() {
         const now = new Date().getTime();
         const distance = countdownDate - now;
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
     }, 1000);
 
-    // --- 4. Scroll Animation Logic ---
+    // --- 4. Scroll Animation Logic (Sama) ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -95,11 +96,12 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    // --- 5. Guestbook Logic (Tanpa RSVP) ---
+    // --- 5. Guestbook Logic (Kesan & Pesan) ---
     const form = document.getElementById('guestbook-form');
     const wishesList = document.getElementById('wishes-list');
     const submitWishBtn = document.getElementById('submit-wish-btn');
-    const storageKey = 'weddingWishes_FulanFulanah_v4';
+    // Ganti storageKey
+    const storageKey = 'graduationWishes_Wisudawan_v4'; 
 
     function loadWishes() {
         const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
@@ -157,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 saveWish(newWish);
                 form.reset();
                 submitWishBtn.disabled = false;
-                submitWishBtn.textContent = 'Kirim Ucapan';
-                showToast('Ucapan Anda berhasil dikirim!');
+                submitWishBtn.textContent = 'Kirim Pesan';
+                showToast('Pesan Anda berhasil dikirim!');
             }, 1000);
         } else {
             showToast('Mohon lengkapi semua isian.', 'error');
@@ -173,24 +175,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function showToast(message, type = 'success') {
         clearTimeout(toastTimer);
         toast.textContent = message;
-        toast.style.backgroundColor = type === 'error' ? '#c94c4c' : 'var(--color-dark)';
+        // Ganti warna toast dengan warna tema biru
+        toast.style.backgroundColor = type === 'error' ? '#c94c4c' : 'var(--color-blue)'; 
         toast.classList.add('show');
         toastTimer = setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
     }
-
-    document.querySelectorAll('.copy-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const targetSelector = button.dataset.clipboardTarget;
-            const textToCopy = document.querySelector(targetSelector).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast('Nomor rekening berhasil disalin!');
-            }).catch(err => showToast('Gagal menyalin.', 'error'));
-        });
-    });
     
-    // --- 7. Photo Gallery Logic ---
+    // Menghapus logika Clipboard (Salin No. Rek) karena tidak ada di undangan wisuda
+
+    // --- 7. Photo Gallery Logic (Sama) ---
     const modal = document.getElementById('gallery-modal');
     const modalImg = document.getElementById('modal-image');
     const closeModal = document.querySelector('.modal-close');
