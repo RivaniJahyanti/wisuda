@@ -1,204 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Element Selections ---
-    const coverPage = document.getElementById('cover-page');
-    const openButton = document.getElementById('open-invitation-btn');
-    const mainContent = document.querySelector('.card');
-    const audio = document.getElementById('background-music');
-    const musicControl = document.getElementById('music-control');
+    // Tanggal target wisuda (Ganti dengan tanggal Anda: Tahun, Bulan (0=Jan), Hari, Jam, Menit, Detik)
+    const targetDate = new Date("October 28, 2025 09:00:00").getTime();
     
-    // --- 0. Initial Setup: Confetti Animation (Pengganti Leaf) ---
-    const confettiContainer = document.getElementById('confetti-container');
-    if (confettiContainer) {
-        // Membuat Konfeti
-        for (let i = 0; i < 30; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = `${Math.random() * 100}vw`;
-            confetti.style.animationDelay = `${Math.random() * 8}s`;
-            confetti.style.animationDuration = `${5 + Math.random() * 5}s`;
-            confetti.style.transform = `scale(${0.5 + Math.random()})`;
-            confettiContainer.appendChild(confetti);
-        }
-    }
+    // Elemen DOM
+    const timerElement = document.getElementById("timer");
+    const bukaUndanganButton = document.getElementById("bukaUndangan");
 
-    // --- 1. Guest Name Personalization (Sama) ---
-    const guestNameDisplay = document.getElementById('guest-name-display');
-    const urlParams = new URLSearchParams(window.location.search);
-    const guestName = urlParams.get('to');
-    if (guestName) {
-        guestNameDisplay.textContent = guestName.replace(/[+]/g, ' ');
-    }
-
-    // --- 2. Cover & Music Logic (Sama) ---
-    openButton.addEventListener('click', function() {
-        coverPage.classList.add('hidden');
-        mainContent.classList.add('visible');
-        document.body.style.overflowY = 'auto';
-
-        audio.play().then(() => {
-            musicControl.classList.add('playing');
-            musicControl.innerHTML = '<i class="fa-solid fa-music"></i>';
-        }).catch(error => {
-            console.error("Audio play failed:", error);
-            musicControl.classList.remove('playing');
-            musicControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-        });
-    });
-
-    musicControl.addEventListener('click', function() {
-        if (audio.paused) {
-            audio.play();
-            musicControl.classList.add('playing');
-            musicControl.innerHTML = '<i class="fa-solid fa-music"></i>';
-        } else {
-            audio.pause();
-            musicControl.classList.remove('playing');
-            musicControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-        }
-    });
-
-    // --- 3. Countdown Timer Logic (Sama) ---
-    const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime(); // Tanggal Wisuda
-    const countdownFunction = setInterval(function() {
+    // Fungsi untuk menghitung dan menampilkan waktu mundur
+    function updateCountdown() {
+        // Ambil tanggal dan waktu saat ini
         const now = new Date().getTime();
-        const distance = countdownDate - now;
+        
+        // Cari jarak antara sekarang dan tanggal target
+        const distance = targetDate - now;
 
-        if (distance < 0) {
-            clearInterval(countdownFunction);
-            document.getElementById("countdown").innerHTML = "<h4>Acara Telah Berlangsung</h4>";
-            return;
-        }
-
+        // Perhitungan waktu untuk hari, jam, menit, dan detik
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("days").innerText = String(days).padStart(2, '0');
-        document.getElementById("hours").innerText = String(hours).padStart(2, '0');
-        document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
-        document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
-    }, 1000);
-
-    // --- 4. Scroll Animation Logic (Sama) ---
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const delay = entry.target.dataset.delay || '0';
-                entry.target.style.animation = `fadeInUp 0.8s ${delay}s both`;
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.animated-section').forEach((section, index) => {
-        section.dataset.delay = index * 0.1;
-        observer.observe(section);
-    });
-
-    // --- 5. Guestbook Logic (Kesan & Pesan) ---
-    const form = document.getElementById('guestbook-form');
-    const wishesList = document.getElementById('wishes-list');
-    const submitWishBtn = document.getElementById('submit-wish-btn');
-    // Ganti storageKey
-    const storageKey = 'graduationWishes_Wisudawan_v4'; 
-
-    function loadWishes() {
-        const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
-        wishesList.innerHTML = '';
-        wishes.forEach(wish => addWishToDOM(wish));
-    }
-
-    function saveWish(newWish) {
-        const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
-        wishes.unshift(newWish);
-        localStorage.setItem(storageKey, JSON.stringify(wishes));
-    }
-    
-    function addWishToDOM(wish, isNew = false) {
-        const wishCard = document.createElement('div');
-        wishCard.className = 'wish-card';
-        
-        wishCard.innerHTML = `
-            <div class="sender-info">
-                <p class="sender-name">${escapeHTML(wish.name)}</p>
-            </div>
-            <p class="message-text">${escapeHTML(wish.message)}</p>
-        `;
-        
-        if (isNew) {
-            wishesList.prepend(wishCard);
+        // Tampilkan hasil di elemen #timer
+        if (distance > 0) {
+            timerElement.innerHTML = `
+                <div>${days}<span>Hari</span></div>
+                <div>${hours}<span>Jam</span></div>
+                <div>${minutes}<span>Menit</span></div>
+                <div>${seconds}<span>Detik</span></div>
+            `;
         } else {
-            wishesList.appendChild(wishCard);
+            // Jika waktu telah habis
+            timerElement.innerHTML = "🎉 **Acara Sedang Berlangsung!** 🎉";
+            clearInterval(countdownInterval);
         }
     }
 
-    function escapeHTML(str) {
-        const p = document.createElement("p");
-        p.textContent = str;
-        return p.innerHTML;
-    }
+    // Panggil fungsi sekali untuk menghindari kedipan (flicker)
+    updateCountdown();
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const guestNameInput = document.getElementById('guest-name');
-        const guestMessageInput = document.getElementById('guest-message');
-        
-        const newWish = {
-            name: guestNameInput.value.trim(),
-            message: guestMessageInput.value.trim(),
-            date: new Date().toISOString()
-        };
+    // Perbarui hitungan mundur setiap 1 detik
+    const countdownInterval = setInterval(updateCountdown, 1000);
 
-        if (newWish.name && newWish.message) {
-            submitWishBtn.disabled = true;
-            submitWishBtn.textContent = 'Mengirim...';
-            
-            setTimeout(() => {
-                addWishToDOM(newWish, true);
-                saveWish(newWish);
-                form.reset();
-                submitWishBtn.disabled = false;
-                submitWishBtn.textContent = 'Kirim Pesan';
-                showToast('Pesan Anda berhasil dikirim!');
-            }, 1000);
-        } else {
-            showToast('Mohon lengkapi semua isian.', 'error');
-        }
+
+    // Fungsi untuk menutup tombol "Buka Undangan" (Cover)
+    bukaUndanganButton.addEventListener('click', function() {
+        bukaUndanganButton.style.opacity = '0';
+        // Tunggu transisi selesai, lalu sembunyikan sepenuhnya
+        setTimeout(() => {
+            bukaUndanganButton.style.display = 'none';
+        }, 500); // Sesuaikan dengan durasi transisi di CSS
     });
-
-    loadWishes();
-
-    // --- 6. Toast & Clipboard Logic ---
-    const toast = document.getElementById('toast-notification');
-    let toastTimer;
-    function showToast(message, type = 'success') {
-        clearTimeout(toastTimer);
-        toast.textContent = message;
-        // Ganti warna toast dengan warna tema biru
-        toast.style.backgroundColor = type === 'error' ? '#c94c4c' : 'var(--color-blue)'; 
-        toast.classList.add('show');
-        toastTimer = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
-    }
-    
-    // Menghapus logika Clipboard (Salin No. Rek) karena tidak ada di undangan wisuda
-
-    // --- 7. Photo Gallery Logic (Sama) ---
-    const modal = document.getElementById('gallery-modal');
-    const modalImg = document.getElementById('modal-image');
-    const closeModal = document.querySelector('.modal-close');
-    
-    document.querySelectorAll('.gallery-item').forEach(img => {
-        img.addEventListener('click', function() {
-            modal.style.display = "flex";
-            modalImg.src = this.src;
-        });
-    });
-    
-    closeModal.onclick = () => modal.style.display = "none";
-    window.onclick = (event) => { 
-        if (event.target == modal) modal.style.display = "none"; 
-    }
 });
